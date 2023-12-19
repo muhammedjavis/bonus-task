@@ -11,6 +11,12 @@ const Charts = ({ data }) => {
       setChartType(newType);
     }
   };
+
+  const mainDataKeys = data.map((item) => Object.keys(item)[0]);
+  const dataKeys = Object.keys(data[0] || {}).filter(
+    (key) => key !== mainDataKeys[0]
+  );
+
   return (
     <div>
       <ToggleButtonGroup
@@ -24,13 +30,8 @@ const Charts = ({ data }) => {
       {chartType === 'bar' ? (
         <BarChart
           dataset={data}
-          xAxis={[{ scaleType: 'band', dataKey: 'Campaign' }]}
-          series={[
-            { dataKey: 'Clicks', label: 'Clicks' },
-            { dataKey: 'Cost', label: 'Cost' },
-            { dataKey: 'Conversions', label: 'Conversions' },
-            { dataKey: 'Revenue', label: 'Revenue' },
-          ]}
+          xAxis={[{ scaleType: 'band', dataKey: mainDataKeys[0] }]}
+          series={dataKeys.map((key) => ({ dataKey: key, label: key }))}
           width={700}
           height={500}
           margin={{ left: 100 }}
@@ -38,13 +39,8 @@ const Charts = ({ data }) => {
       ) : (
         <LineChart
           dataset={data}
-          xAxis={[{ scaleType: 'band', dataKey: 'Campaign' }]}
-          series={[
-            { dataKey: 'Clicks', label: 'Clicks' },
-            { dataKey: 'Cost', label: 'Cost' },
-            { dataKey: 'Conversions', label: 'Conversions' },
-            { dataKey: 'Revenue', label: 'Revenue' },
-          ]}
+          xAxis={[{ scaleType: 'band', dataKey: mainDataKeys[0] }]}
+          series={dataKeys.map((key) => ({ dataKey: key, label: key }))}
           width={700}
           height={500}
           margin={{ left: 100 }}
